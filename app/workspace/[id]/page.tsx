@@ -330,13 +330,10 @@ export default function WorkspacePage() {
       ]);
 
       if (!workspaceData) {
-        // Delayed redirect to avoid immediate redirects on temporary issues
-        setTimeout(() => {
-          if (!workspace) {
-            // Double check we still don't have workspace
-            router.push("/dashboard");
-          }
-        }, 5000);
+        // Instead of automatic redirect, show an error state
+        // This prevents unwanted redirections when there are temporary issues
+        console.warn(`Workspace ${workspaceId} not found or access denied`);
+        setIsLoading(false);
         return;
       }
 
@@ -730,7 +727,7 @@ export default function WorkspacePage() {
       } bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100`}
     >
       {/* Enhanced Top Navigation Bar */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-slate-200/60 shadow-lg">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-slate-200/60 shadow-lg ">
         <div className="flex items-center justify-between h-16 px-8">
           {/* Left Section */}
           <div className="flex items-center gap-6">
@@ -970,90 +967,7 @@ export default function WorkspacePage() {
                   </Button>
                 </div>
 
-                {/* Quick Actions Row */}
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    onClick={createNewPage}
-                    className="flex-1 bg-slate-600 hover:bg-slate-700 text-white h-8 text-sm"
-                  >
-                    <Plus className="h-3 w-3 mr-1" />
-                    New Page
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-                    className="h-8 w-8 p-0 border-slate-200"
-                  >
-                    <Settings className="h-3 w-3" />
-                  </Button>
-                </div>
-
-                {/* Advanced Options Panel */}
-                {showAdvancedOptions && (
-                  <div className="bg-white/60 rounded-lg p-3 border border-slate-200/60 space-y-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="text-xs text-slate-600 block mb-1">
-                          Sort by
-                        </label>
-                        <select
-                          value={sortBy}
-                          onChange={(e) => setSortBy(e.target.value as any)}
-                          className="w-full text-xs bg-white border border-slate-200 rounded px-2 py-1"
-                        >
-                          <option value="recent">Recent</option>
-                          <option value="name">Name</option>
-                          <option value="created">Created</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-xs text-slate-600 block mb-1">
-                          Filter
-                        </label>
-                        <select className="w-full text-xs bg-white border border-slate-200 rounded px-2 py-1">
-                          <option value="all">All Pages</option>
-                          <option value="favorites">Favorites</option>
-                          <option value="recent">Recently Edited</option>
-                          <option value="tagged">Tagged</option>
-                          <option value="untagged">Untagged</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1 h-6 text-xs"
-                      >
-                        <Archive className="h-3 w-3 mr-1" />
-                        Archive
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1 h-6 text-xs"
-                      >
-                        <Download className="h-3 w-3 mr-1" />
-                        Export
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Workspace Stats */}
-              </div>
-            </div>
-
-            {/* Enhanced Pages List with Nested Views */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="p-4">
-                {/* Navigation Tabs */}
-
-                {/* Quick Actions */}
-                <div className="grid grid-cols-2 gap-2 mb-4">
+                 <div className="grid grid-cols-2 gap-2 mb-4">
                   <Button
                     size="sm"
                     onClick={createNewPage}
@@ -1072,6 +986,17 @@ export default function WorkspacePage() {
                     AI Help
                   </Button>
                 </div>
+                {/* Workspace Stats */}
+              </div>
+            </div>
+
+            {/* Enhanced Pages List with Nested Views */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-4">
+                {/* Navigation Tabs */}
+
+                {/* Quick Actions */}
+             
 
                 {/* Content based on selected section */}
                 {sidebarSection === "pages" &&

@@ -47,7 +47,15 @@ export default function Layout({ children }: LayoutProps) {
       async (event, session) => {
         setUser(session?.user ?? null);
         if (event === 'SIGNED_IN') {
-          router.push('/dashboard');
+          // Only redirect to dashboard if user is not already on a protected route
+          // This prevents unwanted redirections when switching browser tabs
+          const isOnProtectedRoute = pathname?.startsWith('/dashboard') || 
+                                   pathname?.startsWith('/workspace') ||
+                                   pathname?.startsWith('/protected');
+          
+          if (!isOnProtectedRoute) {
+            router.push('/dashboard');
+          }
         }
         if (event === 'SIGNED_OUT') {
           router.push('/');
@@ -56,7 +64,7 @@ export default function Layout({ children }: LayoutProps) {
     );
 
     return () => subscription.unsubscribe();
-  }, [router, supabase.auth]);
+  }, [router, supabase.auth, pathname]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -78,7 +86,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen bg-gray-50">
       {showNavbar && (
         <nav className="bg-white border-b border-gray-200 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="px-9 mx-auto ">
             <div className="flex justify-between items-center h-16">
               {/* Logo and main nav */}
               <div className="flex items-center space-x-8">
