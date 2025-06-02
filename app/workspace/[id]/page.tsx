@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
   workspaceService,
   type Workspace,
@@ -76,7 +76,9 @@ import { createClient } from "@/lib/supabase/client";
 export default function WorkspacePage() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const workspaceId = params.id as string;
+  const pageId = searchParams?.get('page');
 
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [pages, setPages] = useState<Page[]>([]);
@@ -367,7 +369,7 @@ export default function WorkspacePage() {
         "Untitled"
       );
       setPages((prev) => [newPage, ...prev]);
-      setSelectedPage(newPage);
+      handlePageSelect(newPage);
       setIsEditing(true);
     } catch (error) {
       console.error("Error creating page:", error);
@@ -386,7 +388,7 @@ export default function WorkspacePage() {
       setPages((prev) =>
         prev.map((p) => (p.id === updatedPage.id ? updatedPage : p))
       );
-      setSelectedPage(updatedPage);
+      handlePageSelect(updatedPage);
       setIsEditing(false);
 
       loadSuggestedTags(updatedPage.id);
@@ -405,7 +407,12 @@ export default function WorkspacePage() {
 
       if (selectedPage?.id === pageId) {
         const remainingPages = pages.filter((p) => p.id !== pageId);
-        setSelectedPage(remainingPages.length > 0 ? remainingPages[0] : null);
+        if (remainingPages.length > 0) {
+          handlePageSelect(remainingPages[0]);
+        } else {
+          setSelectedPage(null);
+          router.replace(`/workspace/${workspaceId}`, { scroll: false });
+        }
       }
     } catch (error) {
       console.error("Error deleting page:", error);
@@ -441,7 +448,7 @@ export default function WorkspacePage() {
       setPages((prev) =>
         prev.map((p) => (p.id === updatedPage.id ? updatedPage : p))
       );
-      setSelectedPage(updatedPage);
+      handlePageSelect(updatedPage);
       setSuggestedTags((prev) => prev.filter((t) => t.tag !== tag));
     } catch (error) {
       console.error("Error applying tag:", error);
@@ -525,6 +532,30 @@ export default function WorkspacePage() {
     return categorized;
   };
 
+  // Add useEffect to handle URL page parameter changes
+  useEffect(() => {
+    if (pages.length === 0) return; // Wait for pages to load
+
+    if (pageId) {
+      const page = pages.find(p => p.id === pageId);
+      if (page && selectedPage?.id !== page.id) {
+        setSelectedPage(page);
+      }
+    } else if (!selectedPage) {
+      // No page ID in URL and no selected page, select first page
+      const firstPage = pages[0];
+      if (firstPage) {
+        router.replace(`/workspace/${workspaceId}?page=${firstPage.id}`, { scroll: false });
+      }
+    }
+  }, [pageId, pages, selectedPage?.id, workspaceId, router]);
+
+  // Function to handle page selection with URL update
+  const handlePageSelect = useCallback((page: Page) => {
+    setSelectedPage(page);
+    router.replace(`/workspace/${workspaceId}?page=${page.id}`, { scroll: false });
+  }, [workspaceId, router]);
+
   const renderNestedPageItem = (page: Page, level = 0) => (
     <div
       key={page.id}
@@ -536,7 +567,7 @@ export default function WorkspacePage() {
       onDragEnd={() => setDraggedPage(null)}
     >
       <div
-        onClick={() => setSelectedPage(page)}
+        onClick={() => handlePageSelect(page)}
         className={`cursor-pointer p-3 rounded-xl transition-all duration-200 flex items-center gap-3 ${
           selectedPage?.id === page.id
             ? "bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200/60 shadow-sm"
@@ -730,23 +761,23 @@ export default function WorkspacePage() {
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-slate-200/60 shadow-lg ">
         <div className="flex items-center justify-between h-16 px-8">
           {/* Left Section */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 min-w-0 flex-1">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => router.push("/dashboard")}
-              className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-all duration-200"
+              className="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-all duration-200 flex-shrink-0"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Dashboard
             </Button>
-            <div className="w-px h-6 bg-slate-300/60" />
-            <div>
-              <h1 className="font-semibold text-slate-900 text-lg">
+            <div className="w-px h-6 bg-slate-300/60 flex-shrink-0" />
+            <div className="min-w-0 flex-1">
+              <h1 className="font-semibold text-slate-900 text-lg truncate">
                 {workspace?.name}
               </h1>
-              <p className="text-sm text-slate-500 hidden sm:block">
-                {workspace?.description}
+              <p className="text-sm text-slate-500 hidden sm:block truncate max-w-xs">
+                {workspace?.description || 'No description'}
               </p>
             </div>
           </div>
@@ -795,7 +826,7 @@ export default function WorkspacePage() {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             {selectedPage && activeTab === "editor" && (
               <>
                 {isEditing ? (
@@ -841,77 +872,7 @@ export default function WorkspacePage() {
             {/* Fullscreen Toggle */}
 
             {/* Help/Shortcuts Button */}
-            <div className="relative">
-              {showKeyboardShortcuts && (
-                <div className="shortcuts-tooltip absolute right-0 top-full mt-3 w-80 bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-slate-200/60 p-6 z-50">
-                  <h3 className="font-semibold text-slate-900 mb-4 text-lg">
-                    Keyboard Shortcuts
-                  </h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">New Page</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+N
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Toggle Edit Mode</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+E
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Save Page</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+S
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Toggle Left Panel</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+[
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Toggle Right Panel</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+]
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Switch to Editor</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+1
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Switch to Graph</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+2
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Switch to AI</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Cmd+3
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Fullscreen Mode</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        F11
-                      </kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Cancel Edit</span>
-                      <kbd className="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono">
-                        Esc
-                      </kbd>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+          
           </div>
         </div>
       </header>
@@ -1121,7 +1082,7 @@ export default function WorkspacePage() {
                                 {tagPages.map((page) => (
                                   <div
                                     key={page.id}
-                                    onClick={() => setSelectedPage(page)}
+                                    onClick={() => handlePageSelect(page)}
                                     className={`cursor-pointer p-2 rounded transition-colors text-sm ${
                                       selectedPage?.id === page.id
                                         ? "bg-emerald-100 text-emerald-900"
@@ -1415,7 +1376,7 @@ export default function WorkspacePage() {
                   onNodeClick={(nodeId) => {
                     const page = pages.find((p) => p.id === nodeId);
                     if (page) {
-                      setSelectedPage(page);
+                      handlePageSelect(page);
                       setActiveTab("editor");
                     }
                   }}
@@ -1432,7 +1393,7 @@ export default function WorkspacePage() {
                 onPageClick={(pageId) => {
                   const page = pages.find((p) => p.id === pageId);
                   if (page) {
-                    setSelectedPage(page);
+                    handlePageSelect(page);
                     setActiveTab("editor");
                   }
                 }}

@@ -159,7 +159,7 @@ export default function LandingPage() {
                   </div>
                   <div className="rounded-2xl overflow-hidden aspect-w-4 aspect-h-3 md:aspect-w-16 md:aspect-h-10">
                     <Image
-                      src="/img1.png"
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
                       alt="Team collaborating in workspace"
                       width={600}
                       height={450}
@@ -178,7 +178,7 @@ export default function LandingPage() {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="rounded-2xl overflow-hidden shadow-lg aspect-w-4 aspect-h-3 md:aspect-w-16 md:aspect-h-10 order-2 md:order-1">
                   <Image
-                    src="/img3.png"
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
                     alt="Smart linking interface"
                     width={600}
                     height={450}
@@ -300,10 +300,10 @@ export default function LandingPage() {
               {/* Center Image */}
               <div className="rounded-2xl overflow-hidden shadow-lg  max-w-sm mx-auto my-8 md:my-0 order-first md:order-none">
                 <Image
-                  src="/img4.jpg"
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
                   alt="AI solutions interface"
-                  width={600}
-                  height={450}
+                  width={500}
+                  height={350}
                   className="w-full h-full object-cover"
                 />
               </div>

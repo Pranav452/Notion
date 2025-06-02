@@ -10,22 +10,25 @@ export default function PremierFacilities() {
 
   const facilities = [
     {
-      title: "State-of-the-Art Infrastructure",
-      description: "200+ bed training hospital for hands-on experience.",
-      image: "/prg1.png",
+      title: "AI-Powered Auto-Linking",
+      description: "Intelligent system that automatically suggests connections between your documents and ideas.",
+      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      fallbackImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2274&q=80",
       cta: "Learn More",
     },
     {
-      title: "Advanced Learning Resources",
-      description: "Skill labs and a well-stocked library available for comprehensive learning and research.",
-      image: "/prg2.png",
+      title: "Semantic Search Engine",
+      description: "Advanced search capabilities that understand context and meaning, not just keywords.",
+      image: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      fallbackImage: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
       cta: "Explore",
     },
     {
-      title: "Innovative Technology for Training",
-      description: "Computer labs and modern simulation labs enhance learning with  equipment.",
-      image: "/prg3.png",
-      cta: "Join Us",
+      title: "Interactive Knowledge Graphs",
+      description: "Visualize connections and relationships between your ideas with dynamic graph networks.",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+      fallbackImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2415&q=80",
+      cta: "Try Now",
     },
   ]
 
@@ -39,9 +42,9 @@ export default function PremierFacilities() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-amber-800 font-medium">Empowering</span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">Our Premier Facilities</h2>
-          <p className="text-gray-700">Equipping Students for Success</p>
+          <span className="text-amber-800 font-medium">Intelligence</span>
+          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">AI-Powered Core Features</h2>
+          <p className="text-gray-700">Transforming Knowledge Management</p>
         </motion.div>
 
         <div className="flex flex-wrap -mx-4">
@@ -63,9 +66,12 @@ export default function PremierFacilities() {
                   }`}
                 >
                   <img
-                    src={facility.image || "/placeholder.svg"}
+                    src={facility.image}
                     alt={facility.title}
                     className="w-full h-full rounded-lg object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = facility.fallbackImage;
+                    }}
                   />
                 </div>
 

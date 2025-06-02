@@ -7,30 +7,30 @@ import { useEffect, useState } from "react"
 export default function Events() {
   const [animationProgress, setAnimationProgress] = useState(0)
 
-  // Events data with more varied content
+  // Events data with AI Knowledge Workspace content
   const events = [
     {
-      title: "Nursing Symposium",
+      title: "AI Auto-Linking Launch",
       description:
-        "Our Annual Nursing Symposium brought together experts to discuss advancements in nursing education and emerging healthcare practices. The event featured keynote speakers from leading medical institutions.",
+        "The revolutionary AI Auto-Linking feature was unveiled, transforming how users connect ideas across their knowledge base. This intelligent system automatically suggests relevant connections between documents and concepts.",
       hasLearnMore: true,
     },
     {
-      title: "Health Drives",
+      title: "Semantic Search Beta",
       description:
-        "Community Health Drives provided essential services and education to rural populations in need. Our students gained valuable experience while serving over 500 community members.",
+        "Our advanced Semantic Search engine entered beta testing, allowing users to find content based on meaning and context rather than just keywords. Early users reported 300% improvement in content discovery.",
       hasLearnMore: false,
     },
     {
-      title: "New Lab",
+      title: "Knowledge Graph Visualization",
       description:
-        "The inauguration of our new simulation lab enhances hands-on training for our nursing students. This state-of-the-art facility features the latest medical equipment and technology.",
+        "The interactive Knowledge Graph feature launched, providing users with dynamic visual representations of their content relationships. This powerful tool helps identify knowledge gaps and unexpected connections.",
       hasLearnMore: false,
     },
     {
-      title: "Join Us",
+      title: "Join the AI Revolution",
       description:
-        "Be part of our journey in shaping compassionate healthcare professionals. Get involved today and contribute to the future of nursing education and healthcare delivery.",
+        "Be part of the future of knowledge management. Experience intelligent content organization, semantic discovery, and collaborative AI features that transform how you work with information.",
       hasLearnMore: false,
     },
   ]
@@ -68,13 +68,13 @@ export default function Events() {
             viewport={{ once: true }}
             className="w-full md:w-1/3"
           >
-            <span className="text-gray-700 font-medium">Events</span>
-            <h2 className="text-3xl md:text-4xl font-bold my-4">Exciting Recent Events at Our School</h2>
+            <span className="text-gray-700 font-medium">Innovation</span>
+            <h2 className="text-3xl md:text-4xl font-bold my-4">Recent AI Feature Releases</h2>
             <div className="flex gap-4">
               <Button variant="outline" className="bg-gray-200 hover:bg-gray-300 border-0">
                 Learn More
               </Button>
-              <Button className="bg-black hover:bg-gray-800 text-white">Join Us</Button>
+              <Button className="bg-black hover:bg-gray-800 text-white">Try Features</Button>
             </div>
           </motion.div>
 
