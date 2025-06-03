@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${sora.className} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
