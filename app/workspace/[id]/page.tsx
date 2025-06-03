@@ -436,11 +436,20 @@ export default function WorkspacePage() {
     }
   };
 
-  const applyTag = async (tag: string) => {
+  const applyTag = async (newTag: string) => {
     if (!selectedPage) return;
 
+    const existingTags = selectedPage.tags || [];
+
+    if (existingTags.includes(newTag)) {
+      // Tag already exists, remove from suggestions and do nothing further.
+      setSuggestedTags((prev) => prev.filter((t) => t.tag !== newTag));
+      console.log(`Tag "${newTag}" already exists for page "${selectedPage.title}".`);
+      return;
+    }
+
     try {
-      const updatedTags = [...(selectedPage.tags || []), tag];
+      const updatedTags = [...existingTags, newTag];
       const updatedPage = await workspaceService.updatePage(selectedPage.id, {
         tags: updatedTags,
       });
@@ -449,7 +458,7 @@ export default function WorkspacePage() {
         prev.map((p) => (p.id === updatedPage.id ? updatedPage : p))
       );
       handlePageSelect(updatedPage);
-      setSuggestedTags((prev) => prev.filter((t) => t.tag !== tag));
+      setSuggestedTags((prev) => prev.filter((t) => t.tag !== newTag));
     } catch (error) {
       console.error("Error applying tag:", error);
     }
@@ -995,7 +1004,7 @@ export default function WorkspacePage() {
                                 tagPages,
                                 "emerald"
                               ),
-                              { key: tag }
+                              { key: `tag-${tag}` }
                             )
                         )}
 
@@ -1297,7 +1306,7 @@ export default function WorkspacePage() {
                           {selectedPage.tags &&
                             selectedPage.tags.length > 0 && (
                               <div className="flex flex-wrap gap-2 mb-6">
-                                {selectedPage.tags.map((tag) => (
+                                {[...new Set(selectedPage.tags)].map((tag) => (
                                   <Badge
                                     key={tag}
                                     className="bg-slate-100 text-slate-700 hover:bg-slate-200"

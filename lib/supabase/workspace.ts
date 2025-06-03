@@ -8,6 +8,7 @@ export interface Workspace {
   created_by: string;
   created_at: string;
   updated_at: string;
+  type: 'personal' | 'team' | 'project' | 'department' | 'other';
 }
 
 export interface Page {
@@ -45,28 +46,29 @@ export class WorkspaceService {
   private supabase = createClient();
 
   // Workspace operations
-  async createWorkspace(name: string, description?: string): Promise<Workspace> {
+  async createWorkspace(
+    name: string,
+    type: Workspace['type'] = 'other',
+    description?: string
+  ): Promise<Workspace> {
     try {
-      console.log('Creating workspace with name:', name, 'description:', description);
+      console.log('Creating workspace with name:', name, 'type:', type, 'description:', description);
       
-      const { data: user, error: userError } = await this.supabase.auth.getUser();
-      if (userError) {
+      const { data: { user }, error: userError } = await this.supabase.auth.getUser();
+      if (userError || !user) {
         console.error('Auth error:', userError);
-        throw new Error(`Authentication error: ${userError.message}`);
-      }
-      
-      if (!user.user) {
-        throw new Error('Not authenticated - user object is null');
+        throw new Error(`Authentication error: ${userError?.message || 'User not found'}`);
       }
 
-      console.log('Authenticated user:', user.user.id);
+      console.log('Authenticated user:', user.id);
 
       const { data: workspace, error } = await this.supabase
         .from('workspaces')
         .insert({
           name,
           description,
-          created_by: user.user.id
+          created_by: user.id,
+          type,
         })
         .select()
         .single();
@@ -83,7 +85,7 @@ export class WorkspaceService {
         .from('workspace_members')
         .insert({
           workspace_id: workspace.id,
-          user_id: user.user.id,
+          user_id: user.id,
           role: 'owner'
         });
 
