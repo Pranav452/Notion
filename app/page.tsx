@@ -47,7 +47,7 @@ export default function LandingPage() {
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-neutralGray">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <Link href="/" className="text-2xl font-bold text-black">
-              Nexus
+              Notion Clone
             </Link>
 
             <nav className="hidden md:flex items-center space-x-6">
@@ -138,12 +138,11 @@ export default function LandingPage() {
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                   <div className="flex flex-col space-y-6">
                     <h1 className="text-4xl md:text-5xl font-bold leading-tight text-black">
-                      Build Smarter Workspaces, Effortlessly
+                      Your Workspace, Enhanced by AI
                     </h1>
                     <p className="text-neutralMid text-base md:text-lg leading-relaxed">
-                      A comprehensive platform that combines collaborative design with user-friendly
-                      automation, making it simple for teams to create, share, and optimize their
-                      digital workspace experience.
+                      A Notion-style collaborative workspace with AI superpowers – designed for productivity, 
+                      knowledge discovery, and effortless linking between your ideas and documents.
                     </p>
                     <div className="flex flex-wrap gap-4 pt-4">
                       <button className="bg-black text-white px-7 py-3 rounded-lg text-sm font-medium hover:bg-neutralDark transition-colors">
@@ -159,7 +158,7 @@ export default function LandingPage() {
                   </div>
                   <div className="rounded-2xl overflow-hidden aspect-w-4 aspect-h-3 md:aspect-w-16 md:aspect-h-10">
                     <Image
-                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+                      src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
                       alt="Team collaborating in workspace"
                       width={600}
                       height={450}
@@ -178,8 +177,8 @@ export default function LandingPage() {
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="rounded-2xl overflow-hidden shadow-lg aspect-w-4 aspect-h-3 md:aspect-w-16 md:aspect-h-10 order-2 md:order-1">
                   <Image
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
-                    alt="Smart linking interface"
+                    src="https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+                    alt="AI auto-linking interface"
                     width={600}
                     height={450}
                     className="w-full h-full object-cover"
@@ -187,17 +186,16 @@ export default function LandingPage() {
                 </div>
                 <div className="flex flex-col space-y-6 order-1 md:order-2">
                   <p className="text-sm text-neutralMid uppercase tracking-wider">
-                    Features
+                    AI Features
                   </p>
                   <h2 className="text-3xl md:text-4xl font-bold leading-tight text-black">
-                    Smart Linking Made Simple
+                    AI Auto-Linking Technology
                   </h2>
                   <p className="text-neutralMid text-base md:text-lg leading-relaxed">
-                    Our intuitive platform makes it easy to connect ideas, documents, and team members.
-                    Experience seamless collaboration with intelligent automation that works behind the
-                    scenes to keep your workflow smooth and efficient.
+                    As you write, our AI detects and suggests relevant internal links to other workspace pages.
+                    This creates a web of knowledge that makes navigation intuitive and discovery effortless.
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
                     <div className="flex items-start space-x-3">
                       <Users
                         className="w-8 h-8 text-neutralDark mt-1 flex-shrink-0"
@@ -205,10 +203,10 @@ export default function LandingPage() {
                       />
                       <div>
                         <h3 className="font-semibold text-black mb-1">
-                          Team Collaboration
+                          Smart References
                         </h3>
                         <p className="text-sm text-neutralMid">
-                          Connect your team members instantly with smart linking and real-time updates.
+                          Automatically identify mentions of other documents and suggest linking them.
                         </p>
                       </div>
                     </div>
@@ -219,27 +217,12 @@ export default function LandingPage() {
                       />
                       <div>
                         <h3 className="font-semibold text-black mb-1">
-                          Smart Documentation
+                          Backlinks
                         </h3>
                         <p className="text-sm text-neutralMid">
-                          Automatically organize and link related documents for easy discovery.
+                          See which pages reference your current document to understand relationships.
                         </p>
                       </div>
-                      <div className="flex items-start space-x-3">
-                      <FileText
-                        className="w-8 h-8 text-neutralDark mt-1 flex-shrink-0"
-                        strokeWidth={1.5}
-                      />
-                      <div>
-                        <h3 className="font-semibold text-black mb-1">
-                          Smart Documentation
-                        </h3>
-                        <p className="text-sm text-neutralMid">
-                          Automatically organize and link related documents for easy discovery.
-                        </p>
-                      </div>
-                      
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -253,13 +236,11 @@ export default function LandingPage() {
               Key Features
             </p>
             <h2 className="text-3xl md:text-4xl font-bold leading-tight text-black max-w-3xl mx-auto mb-6">
-              Gain Insight and Control Over Digital Habits
+              Your Knowledge Graph, Visualized
             </h2>
             <p className="text-neutralMid text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-12">
-              Nexus provides a clear view of your child's device activity.
-              Understand usage patterns, filter content effectively, and
-              schedule screen time to promote a healthy balance between the
-              digital and real world.
+              Visualize how all pages are connected via references and backlinks in an interactive graph view.
+              Helps you track content relationships in complex workspaces and discover new insights.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-12 items-center">
@@ -272,11 +253,10 @@ export default function LandingPage() {
                   />
                   <div className="flex-grow">
                     <h3 className="font-semibold text-black mb-1 text-center">
-                      Usage Monitoring
+                      Workspace Builder
                     </h3>
                     <p className="text-sm text-neutralMid text-center">
-                      Track app usage, website visits, and overall screen time
-                      duration per profile.
+                      Create pages and workspaces with real-time rich text editing and markdown support.
                     </p>
                   </div>
                 </div>
@@ -287,11 +267,10 @@ export default function LandingPage() {
                   />
                   <div className="flex-grow">
                     <h3 className="font-semibold text-black mb-1 text-center">
-                      Advanced Filtering
+                      Auto Tag Generator
                     </h3>
                     <p className="text-sm text-neutralMid text-center">
-                      Block specific apps, websites, or categories to create a
-                      safer online environment.
+                      AI generates semantic tags based on page content for smart filtering and faster search.
                     </p>
                   </div>
                 </div>
@@ -300,8 +279,8 @@ export default function LandingPage() {
               {/* Center Image */}
               <div className="rounded-2xl overflow-hidden shadow-lg  max-w-sm mx-auto my-8 md:my-0 order-first md:order-none">
                 <Image
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
-                  alt="AI solutions interface"
+                  src="https://images.unsplash.com/photo-1501366062246-723b4d3e4eb6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+                  alt="Knowledge graph visualization"
                   width={500}
                   height={350}
                   className="w-full h-full object-cover"
@@ -317,11 +296,10 @@ export default function LandingPage() {
                   />
                   <div>
                     <h3 className="font-semibold text-black mb-1 text-center">
-                      Time Scheduling
+                      Q&A Engine
                     </h3>
                     <p className="text-sm text-neutralMid text-center">
-                      Set specific times for device access, like homework hours
-                      or bedtime routines.
+                      Ask natural language questions about your workspace content and get AI-powered answers.
                     </p>
                   </div>
                 </div>
@@ -332,11 +310,10 @@ export default function LandingPage() {
                   />
                   <div>
                     <h3 className="font-semibold text-black mb-1 text-center">
-                      Activity Reports
+                      Nested Structure
                     </h3>
                     <p className="text-sm text-neutralMid text-center">
-                      Receive regular summaries of your child's digital activity
-                      directly.
+                      Organized page structure with nesting and hierarchy for better content organization.
                     </p>
                   </div>
                 </div>
@@ -373,23 +350,23 @@ export default function LandingPage() {
                 ))}
               </div>
               <p className="text-xl md:text-2xl italic mb-6 text-black leading-relaxed">
-                "Nexus has completely transformed how our team collaborates and manages documentation. 
-                The AI features are incredibly intuitive and have saved us countless hours!"
+                "This Notion clone has completely transformed how our team organizes information. 
+                The AI auto-linking feature connects our documentation in ways we never thought possible!"
               </p>
               <div className="flex items-center justify-center space-x-3">
                 <Image
                   src="/img3.png"
-                  alt="Sarah Chen"
+                  alt="Emily Chen"
                   width={40}
                   height={40}
                   className="rounded-full"
                 />
                 <div>
                   <p className="font-semibold text-sm text-black">
-                    Sarah Chen
+                    Emily Chen
                   </p>
                   <p className="text-xs text-neutralMid">
-                    Parent of 2, Teacher
+                    Product Manager at TechCorp
                   </p>
                 </div>
               </div>
@@ -405,7 +382,7 @@ export default function LandingPage() {
                     Frequently asked questions
                   </h2>
                   <p className="text-neutralMid mb-8">
-                    Find answers to your most pressing questions about Nexus's
+                    Find answers to your most pressing questions about our Notion clone's
                     features and functionality.
                   </p>
                   <button className="border border-black text-black px-6 py-2 rounded-lg text-sm font-medium hover:bg-black/5 transition-colors">
@@ -415,59 +392,47 @@ export default function LandingPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-1 gap-x-10 gap-y-10 md:px-12">
                   <div>
                     <h3 className="font-semibold text-lg mb-2 text-black">
-                      How to set up?
+                      How does the AI auto-linking work?
                     </h3>
                     <p className="text-neutralMid text-sm leading-relaxed">
-                      To set up Nexus, download the app and create a parent
-                      account. Then, add your child's profile by entering their
-                      name and device ID. Finally, configure the time limits and
-                      content restrictions according to your preferences.
+                      As you type, our AI analyzes your content and identifies potential references to other pages in your workspace. 
+                      It then suggests links that you can accept with a single click, creating connections between related content.
                     </p>
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-2 text-black">
-                      What is usage monitoring?
+                      What is the Knowledge Graph Builder?
                     </h3>
                     <p className="text-neutralMid text-sm leading-relaxed">
-                      Usage monitoring allows parents to track their child's
-                      online activity, including websites visited and apps used.
-                      This feature provides insights into screen time habits and
-                      helps enforce healthy usage. Parents can view detailed
-                      logs and receive alerts when limits are reached.
+                      The Knowledge Graph Builder visualizes how all your pages are connected through an interactive graph. 
+                      You can see relationships between documents, identify knowledge clusters, and discover new connections.
                     </p>
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-2 text-black">
-                      How to block websites?
+                      How does the Workspace Q&A Engine work?
                     </h3>
                     <p className="text-neutralMid text-sm leading-relaxed">
-                      To block websites, access the settings in your parent
-                      account and navigate to the content rules section. Here,
-                      you can add specific URLs or categories to the blocklist.
-                      Changes take effect immediately, ensuring your child is
-                      protected.
+                      The Q&A Engine allows you to ask natural language questions about your workspace content. 
+                      Our AI scans all your documents and returns the most relevant answers using semantic search technology.
                     </p>
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-2 text-black">
-                      What if limits are reached?
+                      What is Auto Tag Generation?
                     </h3>
                     <p className="text-neutralMid text-sm leading-relaxed">
-                      When screen time limits are reached, both the parent and
-                      child will receive notifications. The device can be
-                      temporarily locked to prevent further usage. Parents can
-                      adjust limits as needed through their account.
+                      Our AI analyzes your page content and automatically generates semantic tags (like #marketing or #analytics) 
+                      that help organize your workspace. These tags enable smart filtering and faster search across documents.
                     </p>
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-2 text-black">
-                      Can I edit profiles?
+                      Can I collaborate with my team?
                     </h3>
                     <p className="text-neutralMid text-sm leading-relaxed">
-                      Yes, you can edit child profiles at any time. Simply log
-                      into your parent account, select the child's profile, and
-                      make the necessary changes. This includes updating names,
-                      device IDs, and screen time limits.
+                      Yes, our platform supports real-time collaboration. Multiple team members can work on the same document 
+                      simultaneously, with changes syncing instantly across all users.
                     </p>
                   </div>
                   <div>
@@ -475,10 +440,8 @@ export default function LandingPage() {
                       Is there a free trial?
                     </h3>
                     <p className="text-neutralMid text-sm leading-relaxed">
-                      Yes, we offer a free trial period so you can experience
-                      all the features before committing. Sign up today to get
-                      started and explore the benefits of Nexus for your
-                      family's digital well-being.
+                      Yes, we offer a free trial period so you can experience all the features before committing. 
+                      Sign up today to start building your AI-enhanced workspace.
                     </p>
                   </div>
                 </div>
@@ -490,10 +453,10 @@ export default function LandingPage() {
           <section className="bg-[#FDFDFA] py-16 md:py-24">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-2xl">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">
-                Join the Future of Work
+                Start Building Your Knowledge Network
               </h2>
               <p className="text-neutralMid text-base md:text-lg leading-relaxed mb-8">
-                Ready to transform your workspace? Start your free trial today and experience the power of AI-driven collaboration.
+                Ready to transform your workspace? Start your free trial today and experience the power of AI-driven knowledge management.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
@@ -514,7 +477,7 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">
-                  Company name
+                  Notion Clone
                 </h2>
                 <p className="text-neutralMid text-base md:text-lg leading-relaxed">
                   Stay updated on the latest features and insights. Subscribe to our newsletter 
@@ -560,10 +523,10 @@ export default function LandingPage() {
                     Have questions or need support? We're here to help!
                   </p>
                   <a
-                    href="mailto:hello@nexus.io"
+                    href="mailto:hello@notionclone.com"
                     className="text-sm text-white hover:underline"
                   >
-                    hello@nexus.io
+                    hello@notionclone.com
                   </a>
                 </div>
               </div>
@@ -609,7 +572,7 @@ export default function LandingPage() {
                   href="/"
                   className="text-2xl font-bold text-white mb-4 block"
                 >
-                  Nexus
+                  Notion Clone
                 </Link>
                 <p className="text-sm text-white mb-3">Subscribe to updates</p>
                 <p className="text-xs text-white mb-3">
@@ -828,7 +791,7 @@ export default function LandingPage() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center text-sm">
               <div className="mb-4 md:mb-0 text-center md:text-left text-white">
                 <span>
-                  © {new Date().getFullYear()} Nexus. All rights reserved.
+                  © {new Date().getFullYear()} Notion Clone. All rights reserved.
                 </span>
                 <Link href="#" className="ml-4 text-white hover:text-white">
                   Privacy Policy
