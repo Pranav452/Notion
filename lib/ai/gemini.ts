@@ -71,7 +71,7 @@ function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const MODEL_NAME = "gemini-1.5-flash-latest";
+const MODEL_NAME = "gemini-2.0-flash-lite";
 const EMBEDDING_MODEL_NAME = "text-embedding-004"; // Or other available embedding model
 
 export class GeminiAIService {

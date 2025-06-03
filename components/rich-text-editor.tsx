@@ -425,6 +425,13 @@ export function RichTextEditor({
     };
   }, [showSlashMenu]);
 
+  // Add effect to update editor content when content prop changes
+  useEffect(() => {
+    if (editor && content && JSON.stringify(editor.getJSON()) !== JSON.stringify(content)) {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content]);
+
   const generateAILinks = async () => {
     if (!editor || !pageId || !workspaceId) return;
     
