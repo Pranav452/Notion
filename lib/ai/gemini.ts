@@ -325,6 +325,39 @@ Example JSON response:
     return text.replace(/\s+/g, ' ').trim();
   }
 
+  /**
+   * Creates or updates embeddings for a page
+   * @param pageId The ID of the page
+   * @param content The content to generate embeddings for
+   * @returns The generated embedding or null if unsuccessful
+   */
+  async updatePageEmbedding(pageId: string, content: string): Promise<AIEmbedding | null> {
+    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+      console.error("Cannot update page embedding: API key not configured.");
+      return null;
+    }
+
+    try {
+      // Extract plain text if content is JSON
+      const textContent = typeof content === 'string' 
+        ? content 
+        : this.extractTextFromJson(content);
+      
+      // Generate embedding
+      const embedding = await this.generateEmbedding(textContent);
+      
+      if (!embedding.values.length) {
+        console.error("Generated empty embedding for page", pageId);
+        return null;
+      }
+      
+      return embedding;
+    } catch (error) {
+      console.error("Error updating page embedding:", error);
+      return null;
+    }
+  }
+
   async extractPlainText(jsonContent: any): Promise<string> {
     // Extract plain text from Tiptap JSON content
     if (!jsonContent || !jsonContent.content) return '';
@@ -348,22 +381,58 @@ Example JSON response:
     pageContent: string,
     workspacePages: { id: string; title: string; content: string; embedding?: number[] }[]
   ): Promise<{ pageId: string; title: string; similarity: number }[]> {
-    await delay(500); // Simulate processing
-    
     if (workspacePages.length === 0) return [];
-    
-    // Generate mock similarities
-    const similarities = workspacePages
-      .filter(page => page.id) // Exclude current page if needed
-      .map(page => ({
-        pageId: page.id,
-        title: page.title,
-        similarity: 0.5 + Math.random() * 0.45 // 0.5-0.95
-      }))
-      .sort((a, b) => b.similarity - a.similarity)
-      .slice(0, 10);
-    
-    return similarities;
+
+    try {
+      // Generate embedding for the current page if not provided
+      const pageEmbedding = await this.generateEmbedding(pageContent);
+      
+      if (!pageEmbedding.values.length) return [];
+      
+      // Calculate actual similarities using embeddings
+      const pageComparisons = await Promise.all(
+        workspacePages
+          .filter(page => page.id) // Filter out any invalid entries
+          .map(async page => {
+            // If page has no embedding, try to extract text and generate one
+            let pageEmbeddingVec = page.embedding || [];
+            if (pageEmbeddingVec.length === 0 && page.content) {
+              // Extract text from content
+              const textContent = typeof page.content === 'string'
+                ? page.content
+                : this.extractTextFromJson(page.content);
+              
+              // Generate embedding for the page
+              const generatedEmbedding = await this.generateEmbedding(textContent);
+              pageEmbeddingVec = generatedEmbedding.values;
+              
+              console.log(`Generated new embedding for page: ${page.title}`);
+            }
+
+            // Calculate similarity score using cosine similarity
+            const similarity = pageEmbeddingVec.length > 0
+              ? this.cosineSimilarity(pageEmbedding.values, pageEmbeddingVec)
+              : 0;
+            
+            return {
+              pageId: page.id,
+              title: page.title,
+              similarity
+            };
+          })
+      );
+      
+      // Filter and sort the results after all embeddings are processed
+      const similarities = pageComparisons
+        .filter((result) => result.similarity >= 0.7) // Only include results above threshold
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, 10); // Limit to top 10 results
+      
+      return similarities;
+    } catch (error) {
+      console.error("Error finding similar pages:", error);
+      return [];
+    }
   }
 
   private cosineSimilarity(vecA: number[], vecB: number[]): number {
