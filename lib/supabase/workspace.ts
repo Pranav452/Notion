@@ -75,7 +75,10 @@ export class WorkspaceService {
 
       if (error) {
         console.error('Database error creating workspace:', error);
-        throw new Error(`Database error: ${error.message}`);
+        console.error('Error details:', JSON.stringify(error, null, 2));
+        console.error('Error code:', error.code);
+        console.error('Error hint:', error.hint);
+        throw new Error(`Database error: ${error.message || 'Unknown database error'}`);
       }
 
       console.log('Created workspace:', workspace);

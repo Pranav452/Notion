@@ -51,6 +51,7 @@ export default function DashboardPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [newWorkspaceName, setNewWorkspaceName] = useState("");
   const [newWorkspaceDescription, setNewWorkspaceDescription] = useState("");
+  const [newWorkspaceType, setNewWorkspaceType] = useState<Workspace["type"]>("other");
   const [user, setUser] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -127,12 +128,14 @@ export default function DashboardPage() {
     try {
       const workspace = await workspaceService.createWorkspace(
         newWorkspaceName,
-        newWorkspaceDescription as Workspace["type"]
+        newWorkspaceType,
+        newWorkspaceDescription
       );
 
       setWorkspaces((prev) => [workspace, ...prev]);
       setNewWorkspaceName("");
       setNewWorkspaceDescription("");
+      setNewWorkspaceType("other");
       setIsCreating(false);
 
       // Navigate to the new workspace
@@ -736,6 +739,22 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Workspace Type
+                    </label>
+                    <select
+                      value={newWorkspaceType}
+                      onChange={(e) => setNewWorkspaceType(e.target.value as Workspace["type"])}
+                      className="w-full px-3 py-2 border border-slate-200 rounded-md focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none"
+                    >
+                      <option value="personal">Personal</option>
+                      <option value="team">Team</option>
+                      <option value="project">Project</option>
+                      <option value="department">Department</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
                       Description
                     </label>
                     <Input
@@ -761,6 +780,7 @@ export default function DashboardPage() {
                         setIsCreating(false);
                         setNewWorkspaceName("");
                         setNewWorkspaceDescription("");
+                        setNewWorkspaceType("other");
                       }}
                       className="border-slate-200"
                     >
